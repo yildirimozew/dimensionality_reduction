@@ -16,9 +16,13 @@ class KNN:
         self.similarity_function_parameters = similarity_function_parameters
 
     def predict(self, instance):
+        #calculate the distance between the instance and all the data samples
         distances = np.array([self.similarity_function(instance, x, self.similarity_function_parameters) for x in self.dataset])
         sorted_indexes = np.argsort(distances)
-        k_nearest_labels = self.dataset_label[sorted_indexes[:self.K]]
-        return np.argmax(np.bincount(k_nearest_labels))
+        #get k nearest neighbors
+        nearest_k_labels = self.dataset_label[sorted_indexes[:self.K]]
+        #count the number of each class
+        count = np.bincount(nearest_k_labels)
+        return np.argmax(count)
 
 

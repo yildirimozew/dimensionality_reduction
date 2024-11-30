@@ -10,5 +10,6 @@ class Distance:
         return np.linalg.norm(x - y, ord=p)
     @staticmethod
     def calculateMahalanobisDistance(x,y, S_minus_1):
-        return np.sqrt(np.dot(np.dot((x - y), S_minus_1), (x - y).T))
+        item_1 = np.dot((x - y), S_minus_1)
+        return np.sqrt(np.dot(item_1, (x - y).T))
 

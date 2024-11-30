@@ -7,25 +7,14 @@ import numpy as np
 # the data is already preprocessed
 dataset, labels = pickle.load(open("../datasets/part1_dataset.data", "rb"))
 
-"""You are provided with a classification problem dataset and a partial implementation that loads
-the dataset (Knnexperiment.py). On this dataset, you are expected to perform 10-fold cross-
-validation (with stratification) for hyperparameter tuning (via grid search). You are free to de-
-termine which hyperparameter configurations to test (there should be at least five configurations).
-Please repeat this cross-validation procedure five times (by shuffling the original dataset) and com-
-pute confidence intervals of accuracy performance scores for each hyperparameter configuration.
-In your report, please specify these hyperparameter values and attained confidence intervals for
-each hyperparameter configuration. In addition, please add some comments on how you have
-picked the best-performing hyperparameter values. For stratified cross-validation, you may refer to
-the following Scikitlearn documentation [11]. For data shuffling with numpy, you may refer to [12]."""
-
 # hyperparameters
 k_values = [1, 3, 5]
 distance_metrics = [Distance.calculateCosineDistance, Distance.calculateMinkowskiDistance]
-# 10-fold cross-validation initialization
+#10 split cross validation
 skf = StratifiedKFold(n_splits=10)
 results = []
 for i in range(5):
-    # shuffle the data
+    # data shuffling
     indices = np.arange(len(dataset))
     np.random.shuffle(indices)
     dataset = dataset[indices]
@@ -34,11 +23,11 @@ for i in range(5):
         for distance_metric in distance_metrics:
             total_acc = 0
             for train_index, test_index in skf.split(dataset, labels):
-                # split the data and initialize the knn
+                #split the data
                 train_data, test_data = dataset[train_index], dataset[test_index]
                 train_labels, test_labels = labels[train_index], labels[test_index]
                 knn = KNN(train_data, train_labels, distance_metric, None, k)
-                # predict for all test data points and calculate the accuracy
+                # predict and calculate accuracy
                 for i in range(len(test_data)):
                     predicted_class = knn.predict(test_data[i])
                     if predicted_class == test_labels[i]:
@@ -46,9 +35,10 @@ for i in range(5):
             accuracy = total_acc / len(labels)
             results.append(accuracy)
     
-#calculate averages
+
 averages = []
 for i in range(len(k_values)*len(distance_metrics)):
+    #take the sums of results with step of len(k_values)*len(distance_metrics), which are the results of the same k and distance metric
     average = sum(results[i::len(k_values)*len(distance_metrics)]) / 5
     averages.append(average)
 
@@ -56,11 +46,12 @@ for i in range(len(k_values)*len(distance_metrics)):
 confidence_intervals = []
 for i in range(len(k_values)*len(distance_metrics)):
     mean = averages[i]
+    #step of len(k_values)*len(distance_metrics) to take the results of the same k and distance metric
     std = np.std(results[i::len(k_values)*len(distance_metrics)])
     confidence_interval = 1.96 * (std / np.sqrt(5))
     confidence_intervals.append((mean - confidence_interval, mean + confidence_interval))
 
-# print the results
+#results
 i = 0
 for k in k_values:
     for distance_metric in distance_metrics:

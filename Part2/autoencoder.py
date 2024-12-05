@@ -2,25 +2,6 @@ import numpy as np
 import torch.nn as nn
 import torch
 
-"""Similarly, you are provided a file named autoencoder.py where you are expected to implement the
-autoencoder method using solely numpy and torch libraries. In part2 dimensionalityreduction.py,
-you are expected to import this file for performing data projection via the autoencoder method. 
-The AutoencoderNetwork class should implement a regression MLP architecture where the number
-of inputs is equal to the number of outputs and one of the hidden layers (bottleneck layer) should
-have two nodes in order to perform a projection from the original input data space to 2-D. The
-neural network should approximate the identity function (f(x) = x). In other words, the network
-should learn to generate the input data instances at its output layer as closely as possible. To this
-end, it can be trained with the reconstruction loss. For the AutoencoderNetwork class, you are expected to first define your
-architecture in the constructor, the structure of the neural network is up to you (it should contain
-at least one hidden layer, which is the bottleneck layer). The forward function should implement
-the ordinary regression network forward pass operations. The project function should return the
-output of the bottleneck layer of the network. """
-
-"""For the autoencoder architecture, in
-your implementation, you can consider a single fixed set of hyperparameters (learning rate, iteration
-count, number of hidden layers, activation functions utilized, optimizer utilized) for projecting
-datasets (due to the time constraints of the assignment)."""
-
 class AutoEncoderNetwork(nn.Module):
 
     def __init__(self, input_dim: int, output_dim: int):
@@ -115,3 +96,4 @@ class AutoEncoder:
         with torch.no_grad():  
             projected = self.autoencoder_model.project(x)
         return projected
+

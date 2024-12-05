@@ -1,11 +1,3 @@
-"""you are given a Python file named part3 dimensionalityreduction.py, which
-already loads the dataset of this part. In this file, you are expected to employ the three dimension-
-ality reduction methods (PCA, t-SNE, and UMAP) for visualization of the dataset of this part in
-2-D. You can try different hyperparameter configurations for t-SNE and UMAP to enhance visu-
-alization results (please ensure that the hyperparameter configurations you have tested are explicit
-in the file). In the report, please provide the ”best” dimensionality reduction results (as matplotlib
-scatter plots) of each method (the definition of ”best” is up to you)."""
-
 import pickle
 from sklearn.decomposition import PCA
 import umap.umap_ as umap
